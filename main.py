@@ -1,6 +1,5 @@
 from argparse import ArgumentParser
 from utils import Args
-from storage import Storage
 from command_processor import CommandProcessor
 
 def main() -> None:
@@ -31,13 +30,11 @@ def main() -> None:
     args: Args = parser.parse_args()
 
     try:
-        storage = Storage()
-        command_processor = CommandProcessor(storage)
+        command_processor = CommandProcessor()
 
         print(command_processor.process(args))
     except Exception as e:
-        print("Error 500!\n\n")
-        print(e.with_traceback())
+        raise Exception("Error 505!").with_traceback(e.__traceback__)
 
         
 
