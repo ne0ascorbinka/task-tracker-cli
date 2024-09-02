@@ -2,3 +2,4 @@ __pycache__
 tasks.json
 build
 *.egg-info
+.vscode
