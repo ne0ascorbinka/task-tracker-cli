@@ -48,7 +48,9 @@ class CommandProcessor:
         return f"Task updated successfully (ID: {id})"
 
     def delete(self, id: int) -> str:
-        pass
+        with Storage() as storage:
+            storage.delete_by_id(id)
+            return f"Task deleted successfully (ID: {id})"
 
     def mark_in_progress(self, id: int) -> str:
         pass

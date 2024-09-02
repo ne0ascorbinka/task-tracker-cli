@@ -81,6 +81,13 @@ class Storage:
             if task.id == id: return task
         else:
             raise KeyError(f"No task found by ID {id}")
+        
+    def get_task_by_id(self, id: int) -> Task:
+        return self[id]
+    
+    def delete_by_id(self, id: int) -> None:
+        task = self[id]
+        self._tasks.remove(task)
     
     def add_task(self, description: str) -> int:
         task = Task(id=next(self._count), description=description, status=Status.TODO, 
