@@ -26,7 +26,8 @@ class CommandProcessor:
         
         elif command == "list":
             list_filter = None
-            if args.status: list_filter = lambda task: task["status"] == args.status
+            if args.status: 
+                list_filter = lambda task: task.status.value == args.status
 
             return self.list_tasks(list_filter)
     
@@ -72,4 +73,6 @@ class CommandProcessor:
                 return f"Failed: no such task with ID {id}"
 
     def list_tasks(self, filter: str = None) -> str:
-        pass
+        with Storage() as storage:
+            tasks = storage.get_tasks(filter=filter)
+            return '\n\n'.join(str(task) for task in tasks) if tasks else f"There are no such tasks yet" if filter else "No tasks yet"

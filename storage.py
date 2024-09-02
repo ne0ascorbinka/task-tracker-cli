@@ -1,5 +1,5 @@
 from __future__ import annotations
-from typing import Optional, Type, Any
+from typing import Optional, Type, Any, Callable
 import json
 import os
 from itertools import count
@@ -28,7 +28,7 @@ class Task:
             task_dict["description"],
             Status(task_dict["status"]),
             datetime.fromisoformat(task_dict["createdAt"]),
-            datetime.fromisoformat(task_dict["updated_at"]) if task_dict.get("updated_at") else None
+            datetime.fromisoformat(task_dict["updatedAt"]) if task_dict.get("updatedAt") else None
         )
     
     def to_json(self) -> dict:
@@ -48,6 +48,13 @@ class Task:
         super().__setattr__("updatedAt", update_time)
 
         return super().__setattr__(name, value)
+    
+    def __str__(self) -> str:
+        return f"""'{self.description}':
+    ID: {self.id}
+    status: {self.status.value}
+    created at: {self.createdAt.strftime("%d/%m/%Y, %H:%M:%S")}
+    {f"updated at: {self.updatedAt.strftime("%d/%m/%Y, %H:%M:%S") + '\n' if self.updatedAt else ''}"}"""
 
 class Storage:
     def __init__(self, path: str = 'tasks.json') -> None:
@@ -80,7 +87,7 @@ class Storage:
         except Exception as e:
             return False
 
-        return True
+        return False
     
     def __getitem__(self, id: int) -> Task:
         for task in self._tasks:
@@ -102,3 +109,9 @@ class Storage:
                     createdAt=datetime.now())
         self._tasks.append(task)
         return task.id
+    
+    def get_tasks(self, filter: Optional[Callable[[Task], bool]] = None) -> list[Task]:
+        if filter:
+            return [task for task in self._tasks if filter(task)]
+        
+        return self._tasks
