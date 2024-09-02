@@ -1,4 +1,4 @@
-from storage import Storage
+from storage import Storage, Status
 from utils import Args
 
 class CommandProcessor:
@@ -53,10 +53,20 @@ class CommandProcessor:
             return f"Task deleted successfully (ID: {id})"
 
     def mark_in_progress(self, id: int) -> str:
-        pass
+        with Storage() as storage:
+            try:
+                storage[id].status = Status.IN_PROGRESS
+                return f"Task marked as in-progress successfully (ID: {id})"
+            except KeyError:
+                return f"Failed: no such task with ID {id}"
 
     def mark_done(self, id: int) -> str:
-        pass
+        with Storage() as storage:
+            try:
+                storage[id].status = Status.DONE
+                return f"Task marked as done successfully (ID: {id})"
+            except KeyError:
+                return f"Failed: no such task with ID {id}"
 
     def list_tasks(self, filter: str = None) -> str:
         pass
