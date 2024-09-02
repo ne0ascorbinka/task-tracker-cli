@@ -52,7 +52,7 @@ class Storage:
     def __enter__(self) -> Storage:
         if not os.path.exists(self.path):
             self._tasks = []
-            self._count = count(0)
+            self._count = count(1)
             return self
 
         with open(self.path) as file:
