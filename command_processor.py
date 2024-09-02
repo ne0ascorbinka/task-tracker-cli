@@ -38,7 +38,14 @@ class CommandProcessor:
 
 
     def update(self, id: int, description: str) -> str:
-        pass
+        with Storage() as storage:
+            try:
+                task = storage[id]
+                task.description = description
+            except KeyError:
+                return f"Failed: no such task with ID {id}"
+        
+        return f"Task updated successfully (ID: {id})"
 
     def delete(self, id: int) -> str:
         pass

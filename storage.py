@@ -76,6 +76,12 @@ class Storage:
 
         return True
     
+    def __getitem__(self, id: int) -> Task:
+        for task in self._tasks:
+            if task.id == id: return task
+        else:
+            raise KeyError(f"No task found by ID {id}")
+    
     def add_task(self, description: str) -> int:
         task = Task(id=next(self._count), description=description, status=Status.TODO, 
                     createdAt=datetime.now())
