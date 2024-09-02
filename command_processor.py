@@ -2,10 +2,7 @@ from storage import Storage, Status
 from utils import Args
 
 class CommandProcessor:
-    """
-    Command processes proccess. 
-    """
-
+    
     def process(self, args: Args) -> str:
         command = args.command
 
@@ -36,7 +33,6 @@ class CommandProcessor:
             id = storage.add_task(description=description)
             return f"Task added successfully (ID: {id})"
             
-
 
     def update(self, id: int, description: str) -> str:
         with Storage() as storage:

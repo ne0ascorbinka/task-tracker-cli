@@ -70,7 +70,7 @@ class Storage:
 
         with open(self.path) as file:
             data = json.load(file)
-            self._tasks = [Task.from_json(task_dict=task) for task in data["tasks"]] # TODO: mb use get instead
+            self._tasks = [Task.from_json(task_dict=task) for task in data["tasks"]]
             self._count = count(data["count"])
 
         return self
