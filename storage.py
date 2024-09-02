@@ -91,9 +91,11 @@ class Storage:
     def get_task_by_id(self, id: int) -> Task:
         return self[id]
     
-    def delete_by_id(self, id: int) -> None:
+    def delete_by_id(self, id: int) -> str:
         task = self[id]
         self._tasks.remove(task)
+
+        return task.description
     
     def add_task(self, description: str) -> int:
         task = Task(id=next(self._count), description=description, status=Status.TODO, 

@@ -41,30 +41,33 @@ class CommandProcessor:
         with Storage() as storage:
             try:
                 task = storage[id]
+                previous_description = task.description
                 task.description = description
+                return f"Task '{previous_description}' updated successfully"
             except KeyError:
                 return f"Failed: no such task with ID {id}"
         
-        return f"Task updated successfully (ID: {id})"
 
     def delete(self, id: int) -> str:
         with Storage() as storage:
-            storage.delete_by_id(id)
-            return f"Task deleted successfully (ID: {id})"
+            description = storage.delete_by_id(id)
+            return f"Task '{description}' deleted successfully"
 
     def mark_in_progress(self, id: int) -> str:
         with Storage() as storage:
             try:
-                storage[id].status = Status.IN_PROGRESS
-                return f"Task marked as in-progress successfully (ID: {id})"
+                task = storage[id]
+                task.status = Status.IN_PROGRESS
+                return f"Task '{task.description}' marked as in-progress successfully"
             except KeyError:
                 return f"Failed: no such task with ID {id}"
 
     def mark_done(self, id: int) -> str:
         with Storage() as storage:
             try:
-                storage[id].status = Status.DONE
-                return f"Task marked as done successfully (ID: {id})"
+                task = storage[id]
+                task.status = Status.DONE
+                return f"Task '{task.description}' marked as done successfully"
             except KeyError:
                 return f"Failed: no such task with ID {id}"
 
