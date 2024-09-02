@@ -53,8 +53,8 @@ class Task:
         return f"""'{self.description}':
     ID: {self.id}
     status: {self.status.value}
-    created at: {self.createdAt.strftime("%d/%m/%Y, %H:%M:%S")}
-    {f"updated at: {self.updatedAt.strftime("%d/%m/%Y, %H:%M:%S") + '\n' if self.updatedAt else ''}"}"""
+    created at: {self.createdAt.strftime("%d/%m/%Y, %H:%M:%S")}""" +\
+    ("\n    updated at: " + self.updatedAt.strftime("%d/%m/%Y, %H:%M:%S") if self.updatedAt else '')
 
 class Storage:
     def __init__(self, path: str = 'tasks.json') -> None:
