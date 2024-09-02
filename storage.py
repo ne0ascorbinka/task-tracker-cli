@@ -1,5 +1,5 @@
 from __future__ import annotations
-from typing import Optional, Type
+from typing import Optional, Type, Any
 import json
 import os
 from itertools import count
@@ -42,6 +42,12 @@ class Task:
         if self.updatedAt: json_dict["updatedAt"] = self.updatedAt.isoformat()
 
         return json_dict
+    
+    def __setattr__(self, name: str, value: Any) -> None:
+        update_time = datetime.now()
+        super().__setattr__("updatedAt", update_time)
+
+        return super().__setattr__(name, value)
 
 class Storage:
     def __init__(self, path: str = 'tasks.json') -> None:
